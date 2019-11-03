@@ -1,12 +1,12 @@
 package Aplicacao;
 
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import BD.Conexao;
 import BD.DBExcecaoIntegracao;
 import Entidades.Departamento;
+import Entidades.Vendedor;
 
 public class Programa {
 
@@ -18,17 +18,10 @@ public class Programa {
 			
 			con = Conexao.getConexao();
 		    
-			List<Departamento> dep = new ArrayList<>();
+			Departamento dep = new Departamento(1, "Livros");
+			Vendedor vend = new Vendedor(1, "Majaha", "Piratao@gmail.com", new Date() , 700.0, dep);
 			
-			dep.add(new Departamento(1, "Livros"));
-			dep.add(new Departamento(2, "Bibliotecas"));
-			dep.add(new Departamento(3, "Faxinaria"));
-			dep.add(new Departamento(4, "Administracao"));
-			dep.add(new Departamento(5, "Programação"));
-			
-			for (Departamento d : dep) {
-				System.out.println(d.toString());
-			}
+			System.out.println(vend);
 			
 		} catch (RuntimeException e) {
 			throw new DBExcecaoIntegracao(e.getMessage());
