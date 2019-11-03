@@ -5,6 +5,8 @@ import java.util.Date;
 
 import BD.Conexao;
 import BD.DBExcecaoIntegracao;
+import DAO.VendedorDAO;
+import DAO.Implementacoes.OficinaDAO;
 import Entidades.Departamento;
 import Entidades.Vendedor;
 
@@ -20,6 +22,8 @@ public class Programa {
 		    
 			Departamento dep = new Departamento(1, "Livros");
 			Vendedor vend = new Vendedor(1, "Majaha", "Piratao@gmail.com", new Date() , 700.0, dep);
+			
+			VendedorDAO vendDAO = OficinaDAO.criarVendedorDAO();
 			
 			System.out.println(vend);
 			
