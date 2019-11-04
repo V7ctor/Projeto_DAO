@@ -59,16 +59,8 @@ public class VendedorDaoJDBC implements VendedorDAO {
 			
 			// Por padrão, o nosso resultSet começa com 0, caso ele retorne um registro, testaremos abaixo: 
 			if (rs.next()) {
-				Departamento dep = new Departamento();
-				dep.setId(rs.getInt("DepartamentoId"));
-				dep.setNome(rs.getString("DepNome"));
-				Vendedor vend = new Vendedor();
-				vend.setId(rs.getInt("Id"));
-				vend.setNome(rs.getString("Nome"));
-				vend.setEmail(rs.getString("Email"));
-				vend.setSalarioBase(rs.getDouble("SalarioBase"));
-				vend.setDataNascimento(rs.getDate("DataNascimento"));
-				vend.setDepartamento(dep);
+				Departamento dep = instanciaDepartamento(rs);
+				Vendedor vend = instanciaVendedor(rs, dep);
 				return vend;
 			}
 			return null; // Caso não tenha nenhum registro com o Id passado como argumento, então o método retornará nulo.
@@ -80,6 +72,22 @@ public class VendedorDaoJDBC implements VendedorDAO {
 		}
 	}
 
+	private Vendedor instanciaVendedor(ResultSet rs, Departamento dep) throws SQLException {
+		Vendedor vend = new Vendedor();
+		vend.setId(rs.getInt("Id"));
+		vend.setNome(rs.getString("Nome"));
+		vend.setEmail(rs.getString("Email"));
+		vend.setSalarioBase(rs.getDouble("SalarioBase"));
+		vend.setDataNascimento(rs.getDate("DataNascimento"));
+		vend.setDepartamento(dep);
+		return vend;
+	}
+	private Departamento instanciaDepartamento(ResultSet rs) throws SQLException {
+		Departamento dep = new Departamento();
+		dep.setId(rs.getInt("DepartamentoId"));
+		dep.setNome(rs.getString("DepNome"));
+		return dep;
+	}
 	@Override
 	public List<Vendedor> encontrarTodos() {
 		// TODO Auto-generated method stub

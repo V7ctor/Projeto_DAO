@@ -10,6 +10,7 @@ public class Programa {
 
 		VendedorDAO vendedorDAO = OficinaDAO.criarVendedorDAO();
 		
+		System.out.println("=== Teste 1: Vendedor pesquisaPerID ===");
 		Vendedor vend = vendedorDAO.pesquisarPerID(3);
 		
 		System.out.println(vend);
