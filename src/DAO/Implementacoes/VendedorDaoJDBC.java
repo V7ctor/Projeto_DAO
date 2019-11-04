@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mysql.jdbc.Statement;
 
@@ -82,16 +85,62 @@ public class VendedorDaoJDBC implements VendedorDAO {
 		vend.setDepartamento(dep);
 		return vend;
 	}
+	
 	private Departamento instanciaDepartamento(ResultSet rs) throws SQLException {
 		Departamento dep = new Departamento();
 		dep.setId(rs.getInt("DepartamentoId"));
 		dep.setNome(rs.getString("DepNome"));
 		return dep;
 	}
+	
 	@Override
 	public List<Vendedor> encontrarTodos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public List<Vendedor> encontrarPerDepartamento(Departamento departamento) {
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			pst = conn.prepareStatement(
+                        "SELECT vendedor.*,departamento.Nome as DepNome " + 
+                        "FROM vendedor INNER JOIN departamento " + 
+                        "ON vendedor.DepartamentoId = departamento.Id " + 
+                        "WHERE DepartamentoId = ? " + 
+                        "ORDER BY Nome"
+					    );
+			
+			pst.setInt(1, departamento.getId());
+			rs = pst.executeQuery();
+			
+			List<Vendedor> lista = new ArrayList<Vendedor>();
+			Map<Integer, Departamento> map = new HashMap<>();;
+			
+			while (rs.next()) { // Enquanto houver um próximo resultado, será percorrido por while
+				
+				Departamento dep = map.get(rs.getInt("DepartamentoId"));
+				
+				if (dep == null) {
+					dep = instanciaDepartamento(rs);
+					map.put(rs.getInt("DepartamentoId"), dep);
+				}
+				
+				Vendedor vend = instanciaVendedor(rs, dep);
+				lista.add(vend);
+			}
+			
+			return lista;
+ 
+		} catch (SQLException e) {
+			throw new DBExcecao(e.getMessage());
+		}finally {
+			Conexao.fecharResultSet(rs);
+			Conexao.fecharStatement((Statement) pst);
+		}
 	}
 
 }

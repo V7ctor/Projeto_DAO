@@ -2,6 +2,7 @@ package DAO;
 
 import java.util.List;
 
+import Entidades.Departamento;
 import Entidades.Vendedor;
 
 public interface VendedorDAO {
@@ -11,5 +12,6 @@ public interface VendedorDAO {
 	void excluirPerID(Vendedor vendedor);
 	Vendedor pesquisarPerID(Integer Id);
 	List<Vendedor> encontrarTodos();
+	List<Vendedor> encontrarPerDepartamento(Departamento departamento);
 	
 }
