@@ -1,0 +1,10 @@
+										Classe OficinaDao (DaoFactory ou FabricaDao)
+										
+	Classe responsável por instanciar os meus DAO´S e possui o método criarVendedorDAO() responsável por manter um baixo acoplamento
+	entre os objetos. Ex:
+	O meu programa principal só conhecerá a classe e o método estático criarVendedorDAO(), não conhecendo assim o tipo de 
+	implementação (se é JDBC ou Mongo ex...), caso a gente queira modificar o tipo de entrada de banco, assim teríamos de modificar
+	somente essa nova classe ao invés de várias no sistema.
+	
+	Então a classe é responsável por um método que tem o tipo da interface (um tipo genérico), porém retornando uma classe 
+	específica, dessa forma meu programa não conhece a implementação, somente a interface.
