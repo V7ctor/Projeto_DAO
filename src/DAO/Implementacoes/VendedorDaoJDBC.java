@@ -95,8 +95,47 @@ public class VendedorDaoJDBC implements VendedorDAO {
 	
 	@Override
 	public List<Vendedor> encontrarTodos() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			pst = conn.prepareStatement(
+					  "SELECT vendedor.*,departamento.Nome as DepNome " + 
+		              "FROM vendedor INNER JOIN departamento " + 
+		              "ON vendedor.DepartamentoId = departamento.Id " + 
+		              "ORDER BY Nome"
+					);
+ 
+			rs = pst.executeQuery();
+			
+			List<Vendedor> lista = new ArrayList<Vendedor>();
+			Map<Integer, Departamento> map = new HashMap<>();			
+			
+			while (rs.next()) {
+				
+				Departamento dep = map.get(rs.getInt("DepartamentoId"));
+				
+				if (dep == null) {
+					dep = instanciaDepartamento(rs);
+					map.put(rs.getInt("DepartamentoId"), dep);
+				}
+
+				Vendedor vend = instanciaVendedor(rs, dep);		
+				lista.add(vend);
+				
+			}
+			
+			
+				
+			return lista;
+
+		} catch (SQLException e) {
+			throw new DBExcecao(e.getMessage());
+		}finally {
+			Conexao.fecharResultSet(rs);
+			Conexao.fecharStatement((Statement) pst);
+		}
 	}
 	
 	@Override
@@ -107,20 +146,20 @@ public class VendedorDaoJDBC implements VendedorDAO {
 		try {
 			
 			pst = conn.prepareStatement(
-                        "SELECT vendedor.*,departamento.Nome as DepNome " + 
-                        "FROM vendedor INNER JOIN departamento " + 
-                        "ON vendedor.DepartamentoId = departamento.Id " + 
-                        "WHERE DepartamentoId = ? " + 
-                        "ORDER BY Nome"
-					    );
-			
-			pst.setInt(1, departamento.getId());
+					  "SELECT vendedor.*,departamento.Nome as DepNome " + 
+		              "FROM vendedor INNER JOIN departamento " + 
+		              "ON vendedor.DepartamentoId = departamento.Id " + 
+		              "WHERE DepartamentoId = ? " + 
+		              "ORDER BY Nome"
+					);
+ 
+			pst.setInt(1, departamento.getId());		
 			rs = pst.executeQuery();
 			
 			List<Vendedor> lista = new ArrayList<Vendedor>();
-			Map<Integer, Departamento> map = new HashMap<>();;
+			Map<Integer, Departamento> map = new HashMap<>();			
 			
-			while (rs.next()) { // Enquanto houver um próximo resultado, será percorrido por while
+			while (rs.next()) {
 				
 				Departamento dep = map.get(rs.getInt("DepartamentoId"));
 				
@@ -128,13 +167,16 @@ public class VendedorDaoJDBC implements VendedorDAO {
 					dep = instanciaDepartamento(rs);
 					map.put(rs.getInt("DepartamentoId"), dep);
 				}
-				
-				Vendedor vend = instanciaVendedor(rs, dep);
+
+				Vendedor vend = instanciaVendedor(rs, dep);		
 				lista.add(vend);
+				
 			}
 			
+			
+				
 			return lista;
- 
+
 		} catch (SQLException e) {
 			throw new DBExcecao(e.getMessage());
 		}finally {
