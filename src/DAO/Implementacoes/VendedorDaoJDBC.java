@@ -26,8 +26,38 @@ public class VendedorDaoJDBC implements VendedorDAO {
 	}
 	@Override
 	public void inserirDados(Vendedor vendedor) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement pst = null;
+		try {
+			pst = conn.prepareStatement(
+					"INSERT INTO vendedor" + 
+					"(Nome, Email, DataNascimento, SalarioBase, DepartamentoId) " + 
+					"VALUES " + 
+					"(?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			pst.setString(1, vendedor.getNome());
+			pst.setString(2, vendedor.getEmail());
+			pst.setDate(3, new java.sql.Date(vendedor.getDataNascimento().getTime()));
+			pst.setDouble(4, vendedor.getSalarioBase());
+			pst.setInt(5, vendedor.getDepartamento().getId());
+			
+			int linhasAfetadas = pst.executeUpdate();
+			
+			if (linhasAfetadas > 0) {
+				ResultSet rs = pst.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					vendedor.setId(id);
+				}
+				Conexao.fecharResultSet(rs);
+			} else {
+				throw new DBExcecao("Erro: Nenhuma linha foi afetada: ");
+			}
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			Conexao.fecharStatement((Statement) pst);
+		}
 	}
 
 	@Override
