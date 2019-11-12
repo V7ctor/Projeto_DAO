@@ -62,8 +62,27 @@ public class VendedorDaoJDBC implements VendedorDAO {
 
 	@Override
 	public void atualizarDados(Vendedor vendedor) {
-		// TODO Auto-generated method stub
-		
+		PreparedStatement pst = null;
+		try {
+			pst = conn.prepareStatement(
+				    "UPDATE vendedor " + 
+				    "SET Nome = ?, Email = ?, DataNascimento = ?, SalarioBase = ?, DepartamentoId = ? " + 
+				    "WHERE Id = ?");
+			
+			pst.setString(1, vendedor.getNome());
+			pst.setString(2, vendedor.getEmail());
+			pst.setDate(3, new java.sql.Date(vendedor.getDataNascimento().getTime()));
+			pst.setDouble(4, vendedor.getSalarioBase());
+			pst.setInt(5, vendedor.getDepartamento().getId());
+			pst.setInt(6, vendedor.getId());
+			
+			pst.executeUpdate();
+			
+		}catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			Conexao.fecharStatement((Statement) pst);
+		}
 	}
 
 	@Override

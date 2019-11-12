@@ -41,6 +41,15 @@ public class Programa {
 			Vendedor vend1 = new Vendedor(null, "Greg", "greg@gmail.com", new Date(), 4000.0, dep);
 			vendedorDAO.inserirDados(vend1);
 			System.out.println("Inserido!, novo ID é: "+vend1.getId());
+		
+		System.out.println();
+		
+		System.out.println("=== Teste 5: Atualizando Vendedor ===");
+		Vendedor vend4 = vendedorDAO.pesquisarPerID(1);
+		vend4.setNome("Martha Cude Cheque");
+		vendedorDAO.atualizarDados(vend4);
+		System.out.println("Atualizacao Completa!!");
+			
 	}
 
 }
