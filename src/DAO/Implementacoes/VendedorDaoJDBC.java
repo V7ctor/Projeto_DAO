@@ -24,6 +24,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 	public VendedorDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
+	
 	@Override
 	public void inserirDados(Vendedor vendedor) {
 		PreparedStatement pst = null;
@@ -56,7 +57,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 		}catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}finally {
-			Conexao.fecharStatement((Statement) pst);
+			Conexao.fecharStatement(pst);
 		}
 	}
 
@@ -81,7 +82,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 		}catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}finally {
-			Conexao.fecharStatement((Statement) pst);
+			Conexao.fecharStatement(pst);
 		}
 	}
 
@@ -99,7 +100,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 		}catch (SQLException e) {
 			throw new DBExcecao(e.getMessage());
 		} finally {
-			Conexao.fecharStatement((Statement) pst);
+			Conexao.fecharStatement(pst);
 		}
 	}
 
@@ -132,7 +133,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 			throw new DBExcecao(e.getMessage());
 		}finally {
 			Conexao.fecharResultSet(rs);
-			Conexao.fecharStatement((Statement) pst);
+			Conexao.fecharStatement(pst);
 		}
 	}
 
@@ -195,7 +196,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 			throw new DBExcecao(e.getMessage());
 		}finally {
 			Conexao.fecharResultSet(rs);
-			Conexao.fecharStatement((Statement) pst);
+			Conexao.fecharStatement(pst);
 		}
 	}
 	
@@ -242,7 +243,7 @@ public class VendedorDaoJDBC implements VendedorDAO {
 			throw new DBExcecao(e.getMessage());
 		}finally {
 			Conexao.fecharResultSet(rs);
-			Conexao.fecharStatement((Statement) pst);
+			Conexao.fecharStatement(pst);
 		}
 	}
 

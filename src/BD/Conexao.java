@@ -3,12 +3,12 @@ package BD;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
 import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.Statement;
 
 public class Conexao {
 
@@ -41,10 +41,10 @@ public class Conexao {
 	}
 	
 	
-	public static void fecharStatement(Statement st) {
-		if (st != null) {
+	public static void fecharStatement(PreparedStatement pst) {
+		if (pst != null) {
 			try {
-				st.close();
+				pst.close();
 			} catch (SQLException e) {
 				throw new DBExcecao(e.getMessage());
 			}
