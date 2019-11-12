@@ -9,7 +9,7 @@ public interface VendedorDAO {
 	
 		void inserirDados(Vendedor vendedor);
 		void atualizarDados(Vendedor vendedor);
-		void excluirPerID(Vendedor vendedor);
+		void excluirPerID(Integer Id);
 		Vendedor pesquisarPerID(Integer Id);
 		List<Vendedor> encontrarTodos();
 		List<Vendedor> encontrarPerDepartamento(Departamento departamento);

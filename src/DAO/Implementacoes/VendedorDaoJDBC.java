@@ -86,9 +86,21 @@ public class VendedorDaoJDBC implements VendedorDAO {
 	}
 
 	@Override
-	public void excluirPerID(Vendedor vendedor) {
-		// TODO Auto-generated method stub
+	public void excluirPerID(Integer Id) {
+		PreparedStatement pst = null;
 		
+		try {
+			
+			pst = conn.prepareStatement("DELETE FROM vendedor WHERE Id = ?");
+			
+			pst.setInt(1, Id);	
+			pst.executeUpdate();
+			
+		}catch (SQLException e) {
+			throw new DBExcecao(e.getMessage());
+		} finally {
+			Conexao.fecharStatement((Statement) pst);
+		}
 	}
 
 	@Override

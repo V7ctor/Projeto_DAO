@@ -45,10 +45,16 @@ public class Programa {
 		System.out.println();
 		
 		System.out.println("=== Teste 5: Atualizando Vendedor ===");
-		Vendedor vend4 = vendedorDAO.pesquisarPerID(1);
-		vend4.setNome("Martha Cude Cheque");
-		vendedorDAO.atualizarDados(vend4);
-		System.out.println("Atualizacao Completa!!");
+			Vendedor vend4 = vendedorDAO.pesquisarPerID(1);
+			vend4.setNome("Martha Cude Cheque");
+			vendedorDAO.atualizarDados(vend4);
+			System.out.println("Atualizacao Completa!!");
+		
+		System.out.println();
+		
+		System.out.println("=== Teste 6: deletando Vendedor ===");
+		vendedorDAO.excluirPerID(32);
+		System.out.println("Deleção Completa!!");
 			
 	}
 
